@@ -6,8 +6,6 @@ import { useLanguage } from '../LanguageContext';
 import { useState, useEffect } from 'react';
 import { FiGlobe } from 'react-icons/fi';
 
-type Language = 'mn' | 'en';
-
 interface Translations {
   [key: string]: {
     title: string;
@@ -78,16 +76,11 @@ export default function Skills() {
 
   return (
     <div className="flex min-h-screen relative">
-      {/* Background */}
       <div className="absolute inset-0 w-full h-full bg-black z-0"></div>
-
       <Sidebar />
-
       <main className="ml-[250px] p-12 min-h-screen w-full text-white flex flex-col relative z-10">
         <div className="mb-12">
-          <h1 className="text-5xl mb-2 relative w-fit">
-            {t.title}
-          </h1>
+          <h1 className="text-5xl mb-2 relative w-fit">{t.title}</h1>
           <div
             className="h-1 w-24 mb-1"
             style={{ backgroundColor: themeColorValue }}
@@ -98,8 +91,6 @@ export default function Skills() {
           ></div>
           <p className="text-gray-400 text-base mt-2">{t.intro}</p>
         </div>
-
-        {/* Skill bars section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-16 gap-x-30 w-full max-w-4xl ml-[100px]">
           <div>
             <div className="flex justify-between mb-2">
@@ -113,7 +104,6 @@ export default function Skills() {
               ></div>
             </div>
           </div>
-
           <div>
             <div className="flex justify-between mb-2">
               <span>{t.skills.nextJs}</span>
@@ -126,7 +116,6 @@ export default function Skills() {
               ></div>
             </div>
           </div>
-
           <div>
             <div className="flex justify-between mb-2">
               <span>{t.skills.javascript}</span>
@@ -139,7 +128,6 @@ export default function Skills() {
               ></div>
             </div>
           </div>
-
           <div>
             <div className="flex justify-between mb-2">
               <span>{t.skills.mongoDb}</span>
@@ -152,7 +140,6 @@ export default function Skills() {
               ></div>
             </div>
           </div>
-
           <div>
             <div className="flex justify-between mb-2">
               <span>{t.skills.python}</span>
@@ -165,7 +152,6 @@ export default function Skills() {
               ></div>
             </div>
           </div>
-
           <div>
             <div className="flex justify-between mb-2">
               <span>{t.skills.typescript}</span>
@@ -178,7 +164,6 @@ export default function Skills() {
               ></div>
             </div>
           </div>
-
           <div>
             <div className="flex justify-between mb-2">
               <span>{t.skills.mysql}</span>
@@ -191,7 +176,6 @@ export default function Skills() {
               ></div>
             </div>
           </div>
-
           <div>
             <div className="flex justify-between mb-2">
               <span>{t.skills.react}</span>
@@ -206,7 +190,6 @@ export default function Skills() {
           </div>
         </div>
       </main>
-
       <div className="absolute top-15 right-4 z-20 flex flex-col items-end space-y-3">
         <div className="relative lang-dropdown">
           <button

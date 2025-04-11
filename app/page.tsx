@@ -9,8 +9,6 @@ import { FiGlobe } from 'react-icons/fi';
 import Image from 'next/image';
 import Link from 'next/link';
 
-type Language = 'mn' | 'en';
-
 interface Translations {
   [key: string]: {
     greeting: string;
@@ -78,11 +76,8 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 w-full h-full bg-black"></div>
-
       <Sidebar />
-
       <main className="ml-[250px] p-12 min-h-screen w-full flex justify-between items-center text-white relative z-10">
         <div className="max-w-lg">
           <h1 className="text-5xl mb-3">
@@ -113,16 +108,11 @@ export default function Home() {
             </button>
           </Link>
         </div>
-
-        {/* Зураг + background гэрэл эффект */}
         <div className="flex justify-center mt-8 mr-12 relative">
-          {/* Гэрэлтсэн дугуй background */}
           <div
-  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[600px] rounded-none blur-2xl opacity-50 transition-colors duration-500 mr-[20px]"
-  style={{ backgroundColor: themeColorValue }}
-></div>
-
-          {/* Зураг */}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[600px] rounded-none blur-2xl opacity-50 transition-colors duration-500 mr-[20px]"
+            style={{ backgroundColor: themeColorValue }}
+          ></div>
           <Image
             src="/project/screenshot-1744269088837.png"
             alt="Static Image"
@@ -132,7 +122,6 @@ export default function Home() {
           />
         </div>
       </main>
-
       <div className="absolute top-15 right-4 z-20 flex flex-col items-end space-y-3">
         <div className="relative lang-dropdown">
           <button
@@ -168,7 +157,6 @@ export default function Home() {
             </div>
           )}
         </div>
-
         <div className="mt-1">
           <ThemeSwitcher />
         </div>

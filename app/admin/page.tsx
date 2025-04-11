@@ -54,7 +54,7 @@ export default function AdminPage() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const router = useRouter();
   const { language } = useLanguage();
-  const [showLangDropdown, setShowLangDropdown] = useState<boolean>(false);
+
 
   const fetchProjects = async () => {
     try {

@@ -5,8 +5,7 @@ import { FormEvent, useState, useRef } from "react";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaGlobe } from "react-icons/fa";
 import { useTheme } from "../ThemeContext";
 import { useLanguage } from "../LanguageContext";
-
-type Language = "mn" | "en";
+import { CSSProperties } from "react";
 
 interface Translations {
   [key: string]: {
@@ -30,11 +29,7 @@ interface Translations {
 export default function Contact() {
   const { themeColorValue } = useTheme();
   const { language } = useLanguage();
-
-  // Зурвас илгээх статусыг хадгалах state
   const [status, setStatus] = useState<"success" | "error" | null>(null);
-
-  // Form-ыг тодорхойлох ref
   const formRef = useRef<HTMLFormElement>(null);
 
   const translations: Translations = {
@@ -78,8 +73,6 @@ export default function Contact() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Form-оос утгуудыг авах
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
@@ -95,10 +88,7 @@ export default function Contact() {
 
       if (response.ok) {
         setStatus("success");
-        // Form-ыг цэвэрлэх
-        if (formRef.current) {
-          formRef.current.reset();
-        }
+        formRef.current?.reset();
       } else {
         setStatus("error");
       }
@@ -127,66 +117,45 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
           <div className="flex flex-col items-center">
-            <FaPhone
-              style={{ color: themeColorValue }}
-              className="text-3xl mb-2"
-            />
+            <FaPhone style={{ color: themeColorValue }} className="text-3xl mb-2" />
             <h3 className="text-lg">{t.call}</h3>
             <p className="text-gray-400">+976 9853143</p>
           </div>
           <div className="flex flex-col items-center">
-            <FaEnvelope
-              style={{ color: themeColorValue }}
-              className="text-3xl mb-2"
-            />
+            <FaEnvelope style={{ color: themeColorValue }} className="text-3xl mb-2" />
             <h3 className="text-lg">{t.email}</h3>
             <p className="text-gray-400">buyndelgertuguldur@gmail.com</p>
           </div>
           <div className="flex flex-col items-center">
-            <FaMapMarkerAlt
-              style={{ color: themeColorValue }}
-              className="text-3xl mb-2"
-            />
+            <FaMapMarkerAlt style={{ color: themeColorValue }} className="text-3xl mb-2" />
             <h3 className="text-lg">{t.location}</h3>
             <p className="text-gray-400">shuii 38-23</p>
           </div>
           <div className="flex flex-col items-center">
-            <FaGlobe
-              style={{ color: themeColorValue }}
-              className="text-3xl mb-2"
-            />
+            <FaGlobe style={{ color: themeColorValue }} className="text-3xl mb-2" />
             <h3 className="text-lg">{t.website}</h3>
             <p className="text-gray-400">asdf.com</p>
           </div>
         </div>
 
         <div className="w-full flex flex-col items-center">
-          <h2
-            style={{ color: themeColorValue }}
-            className="text-3xl mb-8 text-center"
-          >
+          <h2 style={{ color: themeColorValue }} className="text-3xl mb-8 text-center">
             {t.formTitle}
           </h2>
           {status === "success" && (
-            <p className="text-green-500 mb-4 text-center">
-              {t.successMessage}
-            </p>
+            <p className="text-green-500 mb-4 text-center">{t.successMessage}</p>
           )}
           {status === "error" && (
             <p className="text-red-500 mb-4 text-center">{t.errorMessage}</p>
           )}
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="w-full max-w-4xl space-y-4"
-          >
+          <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-4xl space-y-4">
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
               <input
                 type="text"
                 id="name"
                 name="name"
                 className="flex-1 p-3 bg-[#333] text-white rounded-lg border border-gray-600 focus:outline-none placeholder-gray-400"
-                style={{ "--tw-ring-color": themeColorValue } as any}
+                style={{ "--tw-ring-color": themeColorValue } as CSSProperties}
                 placeholder={t.namePlaceholder}
                 required
               />
@@ -195,7 +164,7 @@ export default function Contact() {
                 id="email"
                 name="email"
                 className="flex-1 p-3 bg-[#333] text-white rounded-lg border border-gray-600 focus:outline-none placeholder-gray-400"
-                style={{ "--tw-ring-color": themeColorValue } as any}
+                style={{ "--tw-ring-color": themeColorValue } as CSSProperties}
                 placeholder={t.emailPlaceholder}
                 required
               />
@@ -206,7 +175,7 @@ export default function Contact() {
                 id="subject"
                 name="subject"
                 className="w-full p-3 bg-[#333] text-white rounded-lg border border-gray-600 focus:outline-none placeholder-gray-400"
-                style={{ "--tw-ring-color": themeColorValue } as any}
+                style={{ "--tw-ring-color": themeColorValue } as CSSProperties}
                 placeholder={t.subjectPlaceholder}
                 required
               />
@@ -216,7 +185,7 @@ export default function Contact() {
                 id="message"
                 name="message"
                 className="w-full p-3 bg-[#333] text-white rounded-lg border border-gray-600 focus:outline-none placeholder-gray-400"
-                style={{ "--tw-ring-color": themeColorValue } as any}
+                style={{ "--tw-ring-color": themeColorValue } as CSSProperties}
                 rows={5}
                 placeholder={t.messagePlaceholder}
                 required
