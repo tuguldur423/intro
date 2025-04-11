@@ -4,8 +4,8 @@ import Sidebar from "../../components/Sidebar";
 import { useTheme } from "../ThemeContext";
 import { useLanguage } from "../LanguageContext";
 import { useState, useEffect } from "react";
+import Image from "next/image"; // Импорт нэмнэ
 
-// Төслийн загвар
 interface Project {
   id: string;
   title: string;
@@ -14,10 +14,6 @@ interface Project {
   image: string;
 }
 
-// Хэлний төрөл
-type Language = "mn" | "en";
-
-// Орчуулгын объект
 interface Translations {
   [key: string]: {
     title: string;
@@ -27,16 +23,12 @@ interface Translations {
 }
 
 export default function Projects() {
-  // State-д төслүүдийг хадгалах
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Сэдэв болон хэлний хук
   const { themeColorValue } = useTheme();
   const { language } = useLanguage();
 
-  // Орчуулгын тохиргоо
   const translations: Translations = {
     mn: {
       title: "Төслүүд",
@@ -50,10 +42,8 @@ export default function Projects() {
     },
   };
 
-  // Сонгосон хэлний орчуулга
   const t = translations[language];
 
-  // Төслүүдийг API-гаас авах
   useEffect(() => {
     async function fetchProjects() {
       try {
@@ -69,11 +59,9 @@ export default function Projects() {
         setLoading(false);
       }
     }
-
     fetchProjects();
   }, []);
 
-  // Ачааллаж байгаа бол
   if (loading) {
     return (
       <div className="flex min-h-screen bg-[#1a1a1a] text-white">
@@ -85,7 +73,6 @@ export default function Projects() {
     );
   }
 
-  // Алдаа гарсан бол
   if (error) {
     return (
       <div className="flex min-h-screen bg-[#1a1a1a] text-white">
@@ -99,17 +86,12 @@ export default function Projects() {
 
   return (
     <div className="flex min-h-screen bg-[#1a1a1a] text-white">
-      {/* Хажуугийн самбар */}
       <Sidebar />
-
-      {/* Үндсэн хэсэг */}
       <main className="ml-[250px] p-12 w-full flex flex-col gap-12">
-        {/* Гарчиг */}
         <div>
           <h1 className="text-5xl font-bold tracking-tight relative inline-block">
             {t.title}
           </h1>
-          {/* Динамик өнгөтэй шугам */}
           <div
             className="h-1 w-24 mt-2 rounded-full"
             style={{ backgroundColor: themeColorValue }}
@@ -119,13 +101,9 @@ export default function Projects() {
             style={{ backgroundColor: themeColorValue }}
           ></div>
         </div>
-
-        {/* Төслүүдийн жагсаалт */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.length === 0 ? (
-            <p className="text-gray-400 text-center col-span-full">
-              {t.noProjects}
-            </p>
+            <p className="text-gray-400 text-center col-span-full">{t.noProjects}</p>
           ) : (
             projects.map((project) => (
               <div
@@ -133,9 +111,11 @@ export default function Projects() {
                 className="border border-gray-700 rounded-xl p-6 bg-[#252525] shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 {project.image && (
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title}
+                    width={400}
+                    height={160}
                     className="w-full h-40 object-cover rounded-lg mb-4"
                   />
                 )}

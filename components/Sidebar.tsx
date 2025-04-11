@@ -6,10 +6,6 @@ import { FaHome, FaUser, FaFolder, FaTools, FaEnvelope } from "react-icons/fa";
 import { useTheme } from "../app/ThemeContext";
 import { useLanguage } from "../app/LanguageContext";
 
-// Хэлний төрөл
-type Language = "mn" | "en";
-
-// Орчуулгын объект
 interface Translations {
   [key: string]: {
     home: string;
@@ -31,7 +27,7 @@ const Sidebar = () => {
       about: "Миний тухай",
       project: "Төслүүд",
       skills: "Ур чадвар",
-      contact: "Холтбоо барих",
+      contact: "Холбоо барих",
     },
     en: {
       home: "Home",
@@ -54,7 +50,6 @@ const Sidebar = () => {
 
   return (
     <div className="w-[250px] h-screen bg-[#222] text-white fixed top-0 left-0 p-5 flex flex-col animate-slide-in">
-      {/* Logo with glowing border */}
       <div className="text-center relative">
         <h1
           className="text-2xl p-2 relative font-bold"
@@ -82,8 +77,6 @@ const Sidebar = () => {
           ></span>
         </h1>
       </div>
-
-      {/* Navigation Links */}
       <nav className="mt-[120px] relative">
         <ul className="space-y-5">
           {navLinks.map((link) => {
@@ -93,23 +86,16 @@ const Sidebar = () => {
                 <Link
                   href={link.href}
                   className={`text-lg flex items-center gap-5 relative group px-3 py-2 rounded-lg transition-all duration-300 ${
-                    isActive
-                      ? "bg-[var(--themeColorValue)] bg-opacity-20"
-                      : "hover:bg-white/10"
+                    isActive ? "bg-[var(--themeColorValue)] bg-opacity-20" : "hover:bg-white/10"
                   }`}
                 >
-                  {/* Icon + Label */}
                   <div
                     className="flex items-center gap-5 transition-transform duration-200 group-hover:animate-pulse"
-                    style={{
-                      color: isActive ? themeColorValue : "#fff",
-                    }}
+                    style={{ color: isActive ? themeColorValue : "#fff" }}
                   >
                     {link.icon}
                     <span>{link.label}</span>
                   </div>
-
-                  {/* Underline animation */}
                   <span
                     style={{ backgroundColor: themeColorValue }}
                     className={`absolute bottom-[-4px] left-0 w-full h-[2px] origin-left ${
@@ -121,8 +107,6 @@ const Sidebar = () => {
             );
           })}
         </ul>
-
-        {/* Bubble animation */}
         <div className="fixed bottom-0 left-0 w-[250px] h-screen pointer-events-none overflow-hidden">
           <span
             className="bubble"
@@ -182,8 +166,6 @@ const Sidebar = () => {
           ></span>
         </div>
       </nav>
-
-      {/* Inline CSS for bubble animation */}
       <style jsx>{`
         .bubble {
           position: absolute;
@@ -194,14 +176,14 @@ const Sidebar = () => {
         }
         @keyframes rise {
           0% {
-            transform: translateY(100vh); /* Дэлгэцийн доод хэсгээс эхэлнэ */
+            transform: translateY(100vh);
             opacity: 0.7;
           }
           50% {
             opacity: 0.9;
           }
           100% {
-            transform: translateY(50vh); /* Дэлгэцийн дунд хэсэгт очоод алга болно */
+            transform: translateY(50vh);
             opacity: 0;
           }
         }
