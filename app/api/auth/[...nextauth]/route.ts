@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -30,8 +30,6 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-// NextAuth handler-ийг үүсгэнэ
-const handler = NextAuth(authOptions);
-
-// GET болон POST method-уудыг экспортлоно
-export { handler as GET, handler as POST };
+// NextAuth handler-ийг шууд экспортлоно
+export const GET = NextAuth(authOptions);
+export const POST = NextAuth(authOptions);
