@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "../app/ThemeContext";
-import { CSSProperties } from "react"; // Импорт нэмнэ
+import { CSSProperties } from "react";
 
 export default function ThemeSwitcher() {
   const { themeColor, setThemeColor } = useTheme();
@@ -23,7 +23,7 @@ export default function ThemeSwitcher() {
           className={`w-6 h-6 rounded-full border-2 ${
             themeColor === color.name ? "border-white" : "border-transparent"
           }`}
-          onClick={() => setThemeColor(color.name as any)} // Энд 'as any' хэрэггүй, төрөл зөв
+          onClick={() => setThemeColor(color.name)} 
         />
       ))}
     </div>

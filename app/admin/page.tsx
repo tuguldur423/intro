@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../LanguageContext";
-
+import Image from "next/image"; 
 
 interface Project {
   id: string;
@@ -54,7 +54,6 @@ export default function AdminPage() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const router = useRouter();
   const { language } = useLanguage();
-
 
   const fetchProjects = async () => {
     try {
@@ -409,9 +408,11 @@ export default function AdminPage() {
                 className="bg-[#2c2c2c] p-6 rounded-2xl shadow-2xl transform transition-all duration-500 hover:shadow-[0_0_20px_rgba(30,58,138,0.3)] hover:scale-[1.02]"
               >
                 {project.image && (
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title}
+                    width={400}
+                    height={160}
                     className="w-full h-40 object-cover rounded-xl mb-4"
                   />
                 )}
@@ -441,9 +442,7 @@ export default function AdminPage() {
             ))
           )}
         </section>
-       
 
-        {/* Ирсэн зурвасууд */}
         <section className="bg-[#2c2c2c] p-8 rounded-2xl shadow-2xl transform transition-all duration-500 hover:shadow-[0_0_20px_rgba(30,58,138,0.3)] animate-fade-in">
           <h2
             style={{ color: themeColorValue }}

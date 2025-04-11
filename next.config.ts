@@ -4,9 +4,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "propelrr.com",
-        port: "", // Хэрвээ порт хэрэглэгдээгүй бол хоосон үлдээнэ
-        pathname: "/wp-content/uploads/**", // Зургийн зам (бүх зургийг зөвшөөрөхийн тулд)
+        hostname: "**", // Бүх домэйнийг зөвшөөрөх (туршилтын хувьд)
+        pathname: "/**",
       },
     ],
   },
