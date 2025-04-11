@@ -1,103 +1,178 @@
-import Image from "next/image";
+"use client";
+
+import Sidebar from '../components/Sidebar';
+import ThemeSwitcher from '../components/ThemeSwitcher';
+import { useTheme } from './ThemeContext';
+import { useLanguage } from './LanguageContext';
+import { useState, useEffect } from 'react';
+import { FiGlobe } from 'react-icons/fi';
+import Image from 'next/image';
+import Link from 'next/link';
+
+type Language = 'mn' | 'en';
+
+interface Translations {
+  [key: string]: {
+    greeting: string;
+    name: string;
+    jobTitle1: string;
+    jobTitle2: string;
+    intro: string;
+    button: string;
+  };
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { themeColorValue } = useTheme();
+  const { language, setLanguage } = useLanguage();
+  const [jobTitle, setJobTitle] = useState<string>('Fullstack Programmer');
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [key, setKey] = useState<number>(0);
+  const [showLangDropdown, setShowLangDropdown] = useState<boolean>(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const translations: Translations = {
+    mn: {
+      greeting: 'Сайн байна уу, миний нэр',
+      name: 'Төгөлдөр',
+      jobTitle1: 'Fullstack Программист',
+      jobTitle2: 'Вэб Хөгжүүлэгч',
+      intro: "Би вэб хөгжүүлэгч. Миний талаар илүү ихийг мэдмээр байна уу?",
+      button: 'Миний талаар илүү ихийг',
+    },
+    en: {
+      greeting: 'Hi my name is',
+      name: 'Tuguldur',
+      jobTitle1: 'Fullstack Programmer',
+      jobTitle2: 'Web Developer',
+      intro: "I'm a web developer. Want to know more about me?",
+      button: 'More about me',
+    },
+  };
+
+  const t = translations[language];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      setTimeout(() => {
+        setJobTitle((prev) =>
+          prev === t.jobTitle1 ? t.jobTitle2 : t.jobTitle1
+        );
+        setIsVisible(true);
+        setKey((prev) => prev + 1);
+      }, 500);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [language, t.jobTitle1, t.jobTitle2]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.lang-dropdown')) {
+        setShowLangDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="flex min-h-screen relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 w-full h-full bg-black"></div>
+
+      <Sidebar />
+
+      <main className="ml-[250px] p-12 min-h-screen w-full flex justify-between items-center text-white relative z-10">
+        <div className="max-w-lg">
+          <h1 className="text-5xl mb-3">
+            {t.greeting}{' '}
+            <span style={{ color: themeColorValue }}>{t.name}</span>
+          </h1>
+          <h2 className="text-3xl mb-5 flex items-center">
+            <span className="text-white font-semibold mr-2">
+              {language === 'mn' ? 'Би' : "I'm a"}
+            </span>
+            <span
+              key={key}
+              className={`inline-block overflow-hidden whitespace-nowrap border-r-4 border-white animate-typing transition-opacity duration-500 ${
+                isVisible ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{ minWidth: '250px' }}
+            >
+              {jobTitle}
+            </span>
+          </h2>
+          <p className="text-gray-400 text-base leading-relaxed">{t.intro}</p>
+          <Link href="/about">
+            <button
+              style={{ backgroundColor: themeColorValue }}
+              className="mt-8 px-8 py-3 text-white rounded-full text-base hover:bg-opacity-80 transition-colors"
+            >
+              {t.button}
+            </button>
+          </Link>
+        </div>
+
+        {/* Зураг + background гэрэл эффект */}
+        <div className="flex justify-center mt-8 mr-12 relative">
+          {/* Гэрэлтсэн дугуй background */}
+          <div
+  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[600px] rounded-none blur-2xl opacity-50 transition-colors duration-500 mr-[20px]"
+  style={{ backgroundColor: themeColorValue }}
+></div>
+
+          {/* Зураг */}
+          <Image
+            src="/project/screenshot-1744269088837.png"
+            alt="Static Image"
+            width={370}
+            height={400}
+            className="object-cover rounded-lg z-10 relative shadow-lg mr-[20px]"
+          />
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      <div className="absolute top-15 right-4 z-20 flex flex-col items-end space-y-3">
+        <div className="relative lang-dropdown">
+          <button
+            onClick={() => setShowLangDropdown((prev) => !prev)}
+            className="text-white text-2xl p-2 hover:bg-gray-700 rounded-full"
+          >
+            <FiGlobe />
+          </button>
+          {showLangDropdown && (
+            <div className="absolute right-0 mt-2 w-32 bg-white text-black rounded shadow-lg">
+              <button
+                onClick={() => {
+                  setLanguage('mn');
+                  setShowLangDropdown(false);
+                }}
+                className={`block w-full px-4 py-2 text-left hover:bg-gray-100 ${
+                  language === 'mn' ? 'font-bold bg-gray-200' : ''
+                }`}
+              >
+                🇲🇳 Монгол
+              </button>
+              <button
+                onClick={() => {
+                  setLanguage('en');
+                  setShowLangDropdown(false);
+                }}
+                className={`block w-full px-4 py-2 text-left hover:bg-gray-100 ${
+                  language === 'en' ? 'font-bold bg-gray-200' : ''
+                }`}
+              >
+                🇺🇸 English
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-1">
+          <ThemeSwitcher />
+        </div>
+      </div>
     </div>
   );
 }
