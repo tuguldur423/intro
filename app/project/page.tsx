@@ -83,7 +83,6 @@ export default function Projects() {
       </div>
     );
   }
-
   return (
     <div className="flex min-h-screen bg-[#1a1a1a] text-white">
       <Sidebar />
@@ -112,7 +111,7 @@ export default function Projects() {
               >
                 {project.image && (
                   <Image
-                    src={project.image}
+                    src={project.image} // Жишээ: "https://propelrr.com/wp-content/uploads/2021/07/18-User-friendly-Form-Design-Principles-From-Web-Design-Experts.jpg"
                     alt={project.title}
                     width={400}
                     height={160}
